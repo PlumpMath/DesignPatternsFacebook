@@ -24,7 +24,7 @@
 
         public List<StatisticsUser> ComputeTopPhotosLikes()
         {
-            FacebookObjectCollection<Album> UserAlbums = LoggedInFacebookUser.User.Albums;
+            FacebookObjectCollection<Album> UserAlbums = FacebookSessionSingleton.User.Albums;
             foreach (Album album in UserAlbums)
             {
                 foreach (Photo photo in album.Photos)
@@ -48,7 +48,7 @@
         
         public List<StatisticsUser> ComputeTopPostsLikes()
         {
-            FacebookObjectCollection<Post> UserPosts = LoggedInFacebookUser.User.Posts;
+            FacebookObjectCollection<Post> UserPosts = FacebookSessionSingleton.User.Posts;
             foreach (Post post in UserPosts)
             {
                 FacebookObjectCollection<User> PostLikedByUsersList = post.LikedBy;

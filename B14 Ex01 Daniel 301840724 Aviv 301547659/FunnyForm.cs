@@ -16,7 +16,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
 {
     public partial class FunnyForm : Form
     {
-        private List<RagePerson> m_AllRagePersons;
+        private List<RagePersonJson> m_AllRagePersons;
         private int m_CurrentStartRangeDisplayedIndex = 0;
         private int m_currentPicBoxIndex;
         private PictureBox[] m_RagePersonsTinyPictureBoxes;
@@ -25,7 +25,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
         public FunnyForm()
         {
             InitializeComponent();
-            m_AllRagePersons = new List<RagePerson>();
+            m_AllRagePersons = new List<RagePersonJson>();
         }
 
         private void loadDefaultImages()
@@ -76,6 +76,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
 
                 index++;
             }
+
             return index;
         }
 
@@ -92,7 +93,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
             }
         }
 
-        private void onRagePersonsDownloadedFromServer(List <RagePerson> i_RagePersons)
+        private void onRagePersonsDownloadedFromServer(List <RagePersonJson> i_RagePersons)
         {
             m_AllRagePersons = i_RagePersons;
             populateRagePictureBoxes();
@@ -214,7 +215,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
         {
             listBoxRageFriendsList.DisplayMember = "Name";
             listBoxRageChoosenFriends.DisplayMember = "Name";
-            foreach (User friend in LoggedInFacebookUser.User.Friends)
+            foreach (User friend in FacebookSessionSingleton.User.Friends)
             {
                 listBoxRageFriendsList.Items.Add(friend);
             }
@@ -225,7 +226,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
         {
             string imageURI = m_AllRagePersons[m_currentPicBoxIndex].png;
             string title = richTextBoxDescription.Text;
-            LoggedInFacebookUser.User.PostPhoto(imageURI, title);
+            FacebookSessionSingleton.User.PostPhoto(imageURI, title);
         }
 
         private void buttonPostToFriends_Click(object sender, EventArgs e)
@@ -291,4 +292,5 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
             System.Diagnostics.Process.Start(procInfo);
         }
     }
+
 }

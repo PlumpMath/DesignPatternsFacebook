@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using FacebookWrapper.ObjectModel;
 using B14_Ex01_Daniel_301840724_Aviv_301547659.Logic;
 
 namespace B14_Ex01_Daniel_301840724_Aviv_301547659
@@ -33,7 +32,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
 
         private void loadUserProfilePicture()
         {
-            PictureBoxUser.LoadAsync(LoggedInFacebookUser.User.PictureSqaureURL);
+            PictureBoxUser.LoadAsync(FacebookSessionSingleton.User.PictureSqaureURL);
         }
 
         private void showLoginForm()
@@ -51,7 +50,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
         private void updateGUIWithFacebookUserInfo()
         {
             loadUserProfilePicture();
-            labelWelcome.Text = "Logged In As : " + LoggedInFacebookUser.User.Name;
+            labelWelcome.Text = "Logged In As : " + FacebookSessionSingleton.User.Name;
         }
 
         private void buttonUploadFunny_Click(object sender, EventArgs e)

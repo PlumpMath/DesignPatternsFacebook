@@ -9,7 +9,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659.Logic
     using System.Runtime.Serialization.Json;
     using Newtonsoft.Json;
 
-    public delegate void FinishedDownloadedingDelegate(List<RagePerson> i_RagePersons);
+    public delegate void FinishedDownloadedingDelegate(List<RagePersonJson> i_RagePersons);
 
     public class WebServerController
     {
@@ -22,7 +22,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659.Logic
             {
                 if (m_notifyFinishedLoadingRagePersons != null)
                 {
-                    m_notifyFinishedLoadingRagePersons.Invoke(JsonConvert.DeserializeObject<List<RagePerson>>(e.Result));
+                    m_notifyFinishedLoadingRagePersons.Invoke(JsonConvert.DeserializeObject<List<RagePersonJson>>(e.Result));
                 }
             };
 

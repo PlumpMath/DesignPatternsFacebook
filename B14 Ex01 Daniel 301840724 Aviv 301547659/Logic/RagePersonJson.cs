@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text;
 
-    public class RagePerson
+    public class RagePersonJson
     {
         public string title { get; set; }
         public string emotion { get; set; }

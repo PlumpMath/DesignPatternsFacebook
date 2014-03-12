@@ -72,8 +72,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logic\LoggedInFacebookUser.cs" />
-    <Compile Include="Logic\RagePerson.cs" />
+    <Compile Include="Logic\FacebookSessionSingleton.cs" />
+    <Compile Include="Logic\RagePersonJson.cs" />
     <Compile Include="Controllers\WebServerController.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

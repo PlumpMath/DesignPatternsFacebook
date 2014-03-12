@@ -16,7 +16,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
     {
         private const string k_APPID = "1441993139370754";
         private const int k_CollectionLimit = 10000;
-        private readonly string[] k_FaceboookPermissions = 
+        private readonly string[] r_FaceboookPermissions = 
                     { 
                       "friends_events", "friends_likes", "friends_photos", "user_photos",
                       "publish_actions", "read_stream", "friends_status", "friends_videos" 
@@ -30,8 +30,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
 
         private void login()
         {
-            LoginResult result = FacebookService.Login(k_APPID, k_FaceboookPermissions);
-
+            LoginResult result = FacebookService.Login(k_APPID, r_FaceboookPermissions);
             if (result != null && result.LoggedInUser != null)
             {
                 setCurrentFacebookUser(result.LoggedInUser);
@@ -46,7 +45,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
 
         private void setCurrentFacebookUser(User i_LoggedInUser)
         {
-            new LoggedInFacebookUser(i_LoggedInUser);
+            //FacebookSessionSingleton.Instance.
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)
