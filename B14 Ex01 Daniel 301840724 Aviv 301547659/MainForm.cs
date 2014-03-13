@@ -32,7 +32,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
 
         private void loadUserProfilePicture()
         {
-            PictureBoxUser.LoadAsync(FacebookSessionSingleton.User.PictureSqaureURL);
+            PictureBoxUser.LoadAsync(FacebookSessionSingleton.Instance.User.PictureSqaureURL);
         }
 
         private void showLoginForm()
@@ -50,7 +50,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
         private void updateGUIWithFacebookUserInfo()
         {
             loadUserProfilePicture();
-            labelWelcome.Text = "Logged In As : " + FacebookSessionSingleton.User.Name;
+            labelWelcome.Text = "Logged In As : " + FacebookSessionSingleton.Instance.User.Name;
         }
 
         private void buttonUploadFunny_Click(object sender, EventArgs e)

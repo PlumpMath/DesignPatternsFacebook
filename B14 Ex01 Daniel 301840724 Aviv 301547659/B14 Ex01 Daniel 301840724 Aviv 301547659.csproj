@@ -72,9 +72,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\RageImageController.cs" />
     <Compile Include="Logic\FacebookSessionSingleton.cs" />
     <Compile Include="Logic\RagePersonJson.cs" />
-    <Compile Include="Controllers\WebServerController.cs" />
+    <Compile Include="Controllers\RageWebController.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -160,7 +161,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\madness-this-is-sparta.jpg" />
+    <Content Include="Resources\faceicon.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

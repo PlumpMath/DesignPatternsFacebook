@@ -33,7 +33,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
             LoginResult result = FacebookService.Login(k_APPID, r_FaceboookPermissions);
             if (result != null && result.LoggedInUser != null)
             {
-                setCurrentFacebookUser(result.LoggedInUser);
+                FacebookSessionSingleton.Instance.User = result.LoggedInUser;
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
@@ -41,11 +41,6 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
             {
                 MessageBox.Show("Failed To Login", "Login Fail", MessageBoxButtons.OK ,MessageBoxIcon.Warning);
             }
-        }
-
-        private void setCurrentFacebookUser(User i_LoggedInUser)
-        {
-            //FacebookSessionSingleton.Instance.
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)
