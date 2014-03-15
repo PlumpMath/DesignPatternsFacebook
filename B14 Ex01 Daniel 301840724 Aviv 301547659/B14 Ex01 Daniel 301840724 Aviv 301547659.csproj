@@ -162,6 +162,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\faceicon.jpg" />
+    <None Include="Resources\lol2.jpg" />
+    <None Include="Resources\lol.jpg" />
+    <None Include="Resources\retro_by_lambo311.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

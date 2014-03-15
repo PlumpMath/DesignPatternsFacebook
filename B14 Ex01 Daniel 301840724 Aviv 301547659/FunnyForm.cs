@@ -23,7 +23,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
         private RageWebController m_ServerController;
         private int m_CurrentStartRangeDisplayedIndex = 0;
         private const int k_RageTinyBoxesAmount = 24;
-        private int m_currentPicBoxIndex;  
+        private int m_currentPicBoxIndex;
 
         public FunnyForm()
         {
@@ -36,12 +36,99 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
             m_ServerController = new RageWebController();
             m_ServerController.m_notifyFinishedLoadingRagePersons += onRagePersonsDownloaded;
             m_ServerController.m_notifyFinishedLoadingFilteredImage += onFilteredImageDownloaded;
+            m_ServerController.LoadRagePersonsFromServer();
         }
 
-
-        protected override void OnShown(EventArgs e)
+        private void showBigRageFaceImageUsingCurrentTinyRagePicBox()
         {
-            m_ServerController.LoadRagePersonsFromServer();
+            pictureBoxRageFace.LoadAsync(getCurrentJsonRagePerson().jpg);
+        }
+
+        private void buttonSubmitPost_Click(object sender, EventArgs e)
+        {
+            FacebookSessionSingleton.Instance.User.PostPhoto
+                (
+                    RageImageController.GetJpegByteStream(pictureBoxRageFace.Image), 
+                    richTextBoxDescription.Text
+                );
+            MessageBox.Show("The post was published to your facebook wall successfuly!" , "Confirmation" , MessageBoxButtons.OK);
+        }
+
+        private void buttonOpenInPaint_Click(object sender, EventArgs e)
+        {
+            RageImageController.showImageInPaint(pictureBoxRageFace.Image);
+        }
+
+        private void buttonSaveImage_Click(object sender, EventArgs e)
+        {       
+            RageImageController.showSaveImageDialog(pictureBoxRageFace.Image);
+        }
+
+        private void buttonOpenBrowser_Click(object sender, EventArgs e)
+        {
+            RageWebController.BrowseToFacebook();
+        }
+
+        private void buttonAddFilter_Click(object sender, EventArgs e)
+        {
+            m_ServerController.URIFilterRequest(new Uri(getCurrentJsonRagePerson().jpg));
+        }
+
+        private RagePersonJson getCurrentJsonRagePerson()
+        {
+           return  m_AllRagePersons[m_CurrentStartRangeDisplayedIndex + m_currentPicBoxIndex];
+        }
+
+        private void onFilteredImageDownloaded(Image i_Image)
+        {
+            pictureBoxRageFace.Image = i_Image;
+        }
+
+        private void loadRageImagesToPicBoxesAsync()
+        {
+            int index = m_CurrentStartRangeDisplayedIndex;
+            foreach (PictureBox picBox in m_RagePersonsTinyPictureBoxes)
+            {
+                if (index < m_AllRagePersons.Count)
+                {
+                    picBox.LoadAsync(m_AllRagePersons[index].jpg);
+                    index++;
+                }
+            }
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+        }
+        private void buttonNextFaces_Click(object sender, EventArgs e)
+        {
+            int nextStartIndex = m_CurrentStartRangeDisplayedIndex + k_RageTinyBoxesAmount;
+            if (nextStartIndex < m_AllRagePersons.Count)
+            {
+                m_CurrentStartRangeDisplayedIndex = nextStartIndex;
+                showNextSeriesOfRageFaces();
+            }
+        }
+
+        private void buttonPrevFaces_Click(object sender, EventArgs e)
+        {
+            int nextStartIndex = m_CurrentStartRangeDisplayedIndex - k_RageTinyBoxesAmount;
+            if (nextStartIndex >= 0)
+            {
+                m_CurrentStartRangeDisplayedIndex = nextStartIndex;
+                showNextSeriesOfRageFaces();
+            }
+        }
+
+        private void onRagePersonsDownloaded(List<RagePersonJson> i_RagePersons)
+        {
+            m_AllRagePersons = i_RagePersons;
+            populateRagePictureBoxes();
+            loadRageImagesToPicBoxesAsync();
+            showBigRageFaceImageUsingCurrentTinyRagePicBox();
+            markTinyRageFaceAsSelected();
         }
 
         private void populateRagePictureBoxes()
@@ -55,7 +142,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
                 picBox.Click += new EventHandler(OnRageTinyPicClick);
                 m_RagePersonsTinyPictureBoxes.Add(picBox);
                 panelRagePersons.Controls.Add(m_RagePersonsTinyPictureBoxes[i]);
-             }
+            }
         }
 
         private void OnRageTinyPicClick(Object sender, EventArgs e)
@@ -66,40 +153,6 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
             showBigRageFaceImageUsingCurrentTinyRagePicBox();
         }
 
-
-        private void loadRageImagesToPicBoxesAsync()
-        {
-            int index = m_CurrentStartRangeDisplayedIndex;
-            foreach(PictureBox picBox in m_RagePersonsTinyPictureBoxes)
-            {
-                if (index < m_AllRagePersons.Count)
-                {
-                    picBox.LoadAsync(m_AllRagePersons[index].jpg);
-                    index++;
-                }
-            }
-        }
-
-        private void onRagePersonsDownloaded(List<RagePersonJson> i_RagePersons)
-        {
-            m_AllRagePersons = i_RagePersons;
-            populateRagePictureBoxes();
-            loadRageImagesToPicBoxesAsync();
-            showBigRageFaceImageUsingCurrentTinyRagePicBox();
-            markTinyRageFaceAsSelected();
-        }
-
-
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            e.Cancel = true;
-            Hide();
-        }
-
-        private void showBigRageFaceImageUsingCurrentTinyRagePicBox()
-        {
-            pictureBoxRageFace.LoadAsync(getCurrentJsonRagePerson().jpg);
-        }
 
         private void markTinyRageFaceAsSelected()
         {
@@ -135,16 +188,6 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
             }
         }
 
-        private void buttonNextFaces_Click(object sender, EventArgs e)
-        {
-            int nextStartIndex = m_CurrentStartRangeDisplayedIndex + k_RageTinyBoxesAmount;
-            if (nextStartIndex < m_AllRagePersons.Count)
-            {
-                m_CurrentStartRangeDisplayedIndex = nextStartIndex;
-                showNextSeriesOfRageFaces();
-            }
-        }
-
         private void showNextSeriesOfRageFaces()
         {
             loadRageImagesToPicBoxesAsync();
@@ -152,56 +195,6 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
             m_currentPicBoxIndex = 0;
             markTinyRageFaceAsSelected();
             showBigRageFaceImageUsingCurrentTinyRagePicBox();
-        }
-
-        private void buttonPrevFaces_Click(object sender, EventArgs e)
-        {
-            int nextStartIndex = m_CurrentStartRangeDisplayedIndex - k_RageTinyBoxesAmount;
-            if (nextStartIndex >= 0)
-            {
-                m_CurrentStartRangeDisplayedIndex = nextStartIndex;
-                showNextSeriesOfRageFaces();
-            }
-        }
-
-        private void buttonSubmitPost_Click(object sender, EventArgs e)
-        {
-            FacebookSessionSingleton.Instance.User.PostPhoto
-                (
-                    RageImageController.GetJPEGImageMemoryStream(pictureBoxRageFace.Image), 
-                    richTextBoxDescription.Text
-                );
-            MessageBox.Show("The post was published to your facebook wall successfuly!" , "Confirmation" , MessageBoxButtons.OK);
-        }
-
-        private void buttonOpenInPaint_Click(object sender, EventArgs e)
-        {
-            RageImageController.showImageInPaint(pictureBoxRageFace.Image);
-        }
-
-        private void buttonSaveImage_Click(object sender, EventArgs e)
-        {       
-            RageImageController.showSaveImageDialog(pictureBoxRageFace.Image);
-        }
-
-        private void buttonOpenBrowser_Click(object sender, EventArgs e)
-        {
-            RageWebController.BrowseToFacebook();
-        }
-
-        private void buttonAddFilter_Click(object sender, EventArgs e)
-        {
-            m_ServerController.RequestFilteredImageFromWebService(new Uri(getCurrentJsonRagePerson().jpg));
-        }
-
-        private RagePersonJson getCurrentJsonRagePerson()
-        {
-           return  m_AllRagePersons[m_CurrentStartRangeDisplayedIndex + m_currentPicBoxIndex];
-        }
-
-        private void onFilteredImageDownloaded(Image i_Image)
-        {
-            pictureBoxRageFace.Image = i_Image;
         }
     }
 }

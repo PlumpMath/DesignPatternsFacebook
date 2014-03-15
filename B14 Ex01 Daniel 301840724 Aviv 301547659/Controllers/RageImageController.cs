@@ -59,7 +59,7 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659.Controllers
             }
         }
 
-        public static byte[] GetJPEGImageMemoryStream(Image i_Image)
+        public static byte[] GetJpegByteStream(Image i_Image)
         {
             MemoryStream ms = new MemoryStream();
             i_Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);

@@ -30,6 +30,12 @@ namespace B14_Ex01_Daniel_301840724_Aviv_301547659
             showLoginForm();
         }
 
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+        }
+
         private void loadUserProfilePicture()
         {
             PictureBoxUser.LoadAsync(FacebookSessionSingleton.Instance.User.PictureSqaureURL);
